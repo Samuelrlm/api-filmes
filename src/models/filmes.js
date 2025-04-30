@@ -10,6 +10,23 @@ async function insertFilme(filme){
     return filmeInsert.rows[0]
 }
 
+async function getFilmes(){
+    const filmes = await connection.query(`
+        SELECT * FROM filmes
+    `)
+
+    return filmes.rows
+}
+
+async function getFilmeById(id){
+    const filme = await connection.query(`
+        SELECT * FROM filmes
+        WHERE id = $1
+    `, [id])
+}
+
 module.exports = {
-    insertFilme
+    insertFilme,
+    getFilmes,
+    getFilmeById
 }
