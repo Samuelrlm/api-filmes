@@ -5,5 +5,8 @@ const middlewareFilmes = require("../middlewares/filmes")
 
 router.get("/", controllerFilmes.getFilmes);
 router.post("/", middlewareFilmes.validateInsertFilmes, controllerFilmes.insertFilmes);
+router.get("/:id", 
+    middlewareFilmes.validateGetFilmeById, 
+    controllerFilmes.getFilmeById)
 
 module.exports = router;

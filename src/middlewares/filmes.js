@@ -1,7 +1,7 @@
 function validateInsertFilmes(req, res, next){
-    const { titulo, ano, genero, minutos } = req.body
+    const { titulo, ano, genero, minutos, nota, sinopse, banner } = req.body
 
-    if(!titulo || !ano || !genero || !minutos){
+    if(!titulo || !ano || !genero || !minutos || !nota || !sinopse || !banner){
         return res.status(400).send("Preencha todos os campos")
     }
 
@@ -20,6 +20,17 @@ function validateInsertFilmes(req, res, next){
     next()
 }
 
+function validateGetFilmeById(req, res, next){
+    const { id } = req.params
+
+    if(!id){
+        return res.status(400).send("ID não informado")
+    }
+
+    next()
+}
+
 module.exports = {
-    validateInsertFilmes
+    validateInsertFilmes,
+    validateGetFilmeById
 }

@@ -34,8 +34,21 @@ async function insertFilmes(req, res){
     }
 }
 
+async function deleteFilme(req, res){
+    const { id } = req.params
+
+    try {
+        const filme = await modelFilmes.deleteFilme(id)
+
+        return res.status(200).send(filme)
+    } catch (error) {
+        return res.status(400).send("Erro ao deletar filme")
+    }
+}
+
 module.exports = {
     getFilmes,
     insertFilmes,
-    getFilmeById
+    getFilmeById,
+    deleteFilme
 }
