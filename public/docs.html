@@ -255,7 +255,7 @@
             <section id="convencoes">
                 <h2>Convenções</h2>
                 <ul>
-                    <li>As rotas ficam na raiz. Não há prefixo como <code>/filmes</code>.</li>
+                    <li>As rotas de filme ficam em <code>/filmes</code>. A documentação continua em <code>/docs</code>.</li>
                     <li>O corpo de <code>POST</code> e <code>PUT</code> deve ser JSON, com o header <code>Content-Type: application/json</code>.</li>
                     <li>Respostas de sucesso são JSON. Mensagens de erro são texto puro.</li>
                     <li>Não há autenticação. O CORS está liberado para qualquer origem.</li>
@@ -335,10 +335,10 @@
             <section id="listar">
                 <h2>Listar filmes</h2>
                 <article class="endpoint">
-                    <p class="path"><span class="method get">GET</span> <code>/</code></p>
+                    <p class="path"><span class="method get">GET</span> <code>/filmes</code></p>
                     <p>Devolve todos os filmes cadastrados.</p>
                     <h3>Requisição</h3>
-                    <pre tabindex="0"><code>curl http://localhost:5404/</code></pre>
+                    <pre tabindex="0"><code>curl http://localhost:5404/filmes</code></pre>
                     <h3>Respostas</h3>
                     <p><span class="status">200</span> — lista de filmes. Se não houver registros, a lista vem vazia.</p>
                     <pre tabindex="0"><code>[
@@ -360,10 +360,10 @@
             <section id="buscar">
                 <h2>Buscar filme por id</h2>
                 <article class="endpoint">
-                    <p class="path"><span class="method get">GET</span> <code>/:id</code></p>
+                    <p class="path"><span class="method get">GET</span> <code>/filmes/:id</code></p>
                     <p>Devolve um filme pelo identificador.</p>
                     <h3>Requisição</h3>
-                    <pre tabindex="0"><code>curl http://localhost:5404/1</code></pre>
+                    <pre tabindex="0"><code>curl http://localhost:5404/filmes/1</code></pre>
                     <h3>Respostas</h3>
                     <p><span class="status">200</span> — filme encontrado. O corpo é o objeto do filme.</p>
                     <p><span class="status">200</span> — filme inexistente. O corpo da resposta fica vazio.</p>
@@ -375,10 +375,10 @@
             <section id="cadastrar">
                 <h2>Cadastrar filme</h2>
                 <article class="endpoint">
-                    <p class="path"><span class="method post">POST</span> <code>/</code></p>
+                    <p class="path"><span class="method post">POST</span> <code>/filmes</code></p>
                     <p>Cria um filme. Todos os campos da tabela acima são obrigatórios, exceto o <code>id</code>.</p>
                     <h3>Requisição</h3>
-                    <pre tabindex="0"><code>curl -X POST http://localhost:5404/ \
+                    <pre tabindex="0"><code>curl -X POST http://localhost:5404/filmes \
   -H "Content-Type: application/json" \
   -d '{
     "titulo": "Inception",
@@ -402,10 +402,10 @@
             <section id="atualizar">
                 <h2>Atualizar filme</h2>
                 <article class="endpoint">
-                    <p class="path"><span class="method put">PUT</span> <code>/:id</code></p>
+                    <p class="path"><span class="method put">PUT</span> <code>/filmes/:id</code></p>
                     <p>Substitui todos os dados do filme. O corpo é o mesmo do cadastro. Não há atualização parcial: os sete campos precisam ser enviados de novo.</p>
                     <h3>Requisição</h3>
-                    <pre tabindex="0"><code>curl -X PUT http://localhost:5404/1 \
+                    <pre tabindex="0"><code>curl -X PUT http://localhost:5404/filmes/1 \
   -H "Content-Type: application/json" \
   -d '{
     "titulo": "Inception",
@@ -428,10 +428,10 @@
             <section id="excluir">
                 <h2>Excluir filme</h2>
                 <article class="endpoint">
-                    <p class="path"><span class="method delete">DELETE</span> <code>/:id</code></p>
+                    <p class="path"><span class="method delete">DELETE</span> <code>/filmes/:id</code></p>
                     <p>Remove o filme e devolve o registro que foi apagado.</p>
                     <h3>Requisição</h3>
-                    <pre tabindex="0"><code>curl -X DELETE http://localhost:5404/1</code></pre>
+                    <pre tabindex="0"><code>curl -X DELETE http://localhost:5404/filmes/1</code></pre>
                     <h3>Respostas</h3>
                     <p><span class="status">200</span> — filme excluído. O corpo é o objeto removido.</p>
                     <p><span class="status">404</span> — não existe filme com esse id: <code>Filme não encontrado</code></p>
@@ -442,7 +442,7 @@
 
             <section id="frontend">
                 <h2>Exemplo no front-end</h2>
-                <pre tabindex="0"><code>const resposta = await fetch("http://localhost:5404/", {
+                <pre tabindex="0"><code>const resposta = await fetch("http://localhost:5404/filmes", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
@@ -475,35 +475,35 @@ const filme = await resposta.json()</code></pre>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>GET /</code></td>
+                            <td><code>GET /filmes</code></td>
                             <td>200, lista</td>
                             <td>—</td>
                             <td>—</td>
                             <td>400</td>
                         </tr>
                         <tr>
-                            <td><code>GET /:id</code></td>
+                            <td><code>GET /filmes/:id</code></td>
                             <td>200, objeto</td>
                             <td>200, corpo vazio</td>
                             <td>400</td>
                             <td>400</td>
                         </tr>
                         <tr>
-                            <td><code>POST /</code></td>
+                            <td><code>POST /filmes</code></td>
                             <td>201, objeto</td>
                             <td>—</td>
                             <td>400</td>
                             <td>400</td>
                         </tr>
                         <tr>
-                            <td><code>PUT /:id</code></td>
+                            <td><code>PUT /filmes/:id</code></td>
                             <td>200, objeto</td>
                             <td>404</td>
                             <td>400</td>
                             <td>400</td>
                         </tr>
                         <tr>
-                            <td><code>DELETE /:id</code></td>
+                            <td><code>DELETE /filmes/:id</code></td>
                             <td>200, objeto</td>
                             <td>404</td>
                             <td>400</td>

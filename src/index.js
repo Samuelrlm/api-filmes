@@ -12,7 +12,7 @@ app.get('/docs', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/docs.html'));
 });
 
-app.use(routesFilmes);
+app.use('/filmes', routesFilmes);
 
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`)
