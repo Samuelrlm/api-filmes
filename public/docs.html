@@ -6,13 +6,24 @@
     <title>Documentação da API Filmes</title>
     <style>
         :root {
-            --bg: #f3efe6;
-            --ink: #1c1915;
-            --muted: #3f3a33;
-            --line: #d8d0c3;
-            --card: #fffdf8;
-            --accent: #8c3a16;
+            --bg: #f6f3ec;
+            --ink: #1b1814;
+            --muted: #5c564c;
+            --line: #e4ddd0;
+            --card: #fffcf7;
+            --sidebar: #161310;
+            --sidebar-text: #f4efe6;
+            --sidebar-muted: #c8bfb2;
+            --accent: #b4532a;
             --focus: #0b57d0;
+            --ok: #166534;
+            --ok-bg: #dcfce7;
+            --info: #1e3a8a;
+            --info-bg: #dbeafe;
+            --warn: #9a3412;
+            --warn-bg: #ffedd5;
+            --bad: #991b1b;
+            --bad-bg: #fee2e2;
         }
 
         * { box-sizing: border-box; }
@@ -34,8 +45,6 @@
 
         a { color: var(--accent); }
 
-        a:hover { text-decoration-thickness: 2px; }
-
         :focus-visible {
             outline: 3px solid var(--focus);
             outline-offset: 3px;
@@ -49,14 +58,14 @@
             background: var(--ink);
             color: #fff;
             padding: 0.6rem 1rem;
-            z-index: 2;
+            z-index: 3;
         }
 
         .skip:focus { transform: none; }
 
         .layout {
             display: grid;
-            grid-template-columns: 16rem 1fr;
+            grid-template-columns: 17.5rem minmax(0, 1fr);
             min-height: 100vh;
         }
 
@@ -66,17 +75,33 @@
             align-self: start;
             height: 100vh;
             overflow: auto;
-            padding: 1.5rem 1.25rem;
-            border-right: 1px solid var(--line);
-            background: #ebe4d6;
+            padding: 1.6rem 1.2rem 2rem;
+            background: var(--sidebar);
+            color: var(--sidebar-text);
         }
 
-        .menu p {
-            margin: 0 0 1rem;
-            font-size: 0.85rem;
+        .brand {
+            margin: 0 0 1.6rem;
+            font-size: 1.05rem;
             letter-spacing: 0.04em;
+        }
+
+        .brand span {
+            display: block;
+            margin-top: 0.15rem;
+            color: var(--sidebar-muted);
+            font-size: 0.82rem;
+            letter-spacing: 0;
+            font-weight: 400;
+        }
+
+        .menu h2 {
+            margin: 1.3rem 0 0.35rem;
+            color: var(--sidebar-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: var(--muted);
         }
 
         .menu ul {
@@ -87,74 +112,163 @@
 
         .menu a {
             display: block;
-            color: var(--ink);
+            color: var(--sidebar-text);
             text-decoration: none;
-            padding: 0.4rem 0;
+            border-radius: 8px;
+            padding: 0.38rem 0.6rem;
         }
 
         .menu a:hover,
-        .menu a:focus-visible {
-            text-decoration: underline;
+        .menu a[aria-current="true"] {
+            background: rgba(255, 252, 247, 0.1);
         }
 
         main {
-            padding: 2.5rem 8vw 4rem;
+            min-width: 0;
             max-width: 52rem;
+            padding: 2.4rem 2.2rem 4rem;
         }
 
-        header h1 {
-            margin: 0 0 0.4rem;
-            font-size: 2.2rem;
-            line-height: 1.2;
+        .hero h1 {
+            margin: 0.2rem 0 0.45rem;
+            font-family: Palatino, "Palatino Linotype", Georgia, serif;
+            font-size: 2.7rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
         }
 
-        .lead { font-size: 1.15rem; max-width: 40rem; }
-
-        section {
-            margin-top: 2.5rem;
-            padding-top: 0.5rem;
+        .eyebrow {
+            margin: 0;
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
 
-        h2 { font-size: 1.55rem; margin-bottom: 0.6rem; }
+        .lead {
+            max-width: 38rem;
+            margin: 0 0 1.1rem;
+            color: var(--muted);
+            font-size: 1.12rem;
+        }
 
-        h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
-
-        .endpoint {
+        .base {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin: 0;
+            padding: 0.45rem 0.7rem 0.45rem 0.85rem;
             background: var(--card);
             border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 1.25rem 1.25rem 0.4rem;
-            margin: 1rem 0 1.5rem;
+            border-radius: 999px;
         }
 
-        .path {
+        .base span {
+            color: var(--muted);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 1rem;
+            margin-top: 1.6rem;
+        }
+
+        .card, .endpoint {
+            min-width: 0;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+        }
+
+        .card { padding: 1.1rem 1.15rem 1.15rem; }
+
+        .card h2, .endpoint h2 {
+            margin: 0 0 0.55rem;
+            font-size: 1.15rem;
+        }
+
+        .card ol, .card ul { margin: 0; padding-left: 1.15rem; }
+
+        section { margin-top: 2.4rem; scroll-margin-top: 1.2rem; }
+
+        section > h2 {
+            margin: 0 0 0.7rem;
+            font-family: Palatino, "Palatino Linotype", Georgia, serif;
+            font-size: 1.85rem;
+        }
+
+        .endpoint { margin-top: 1rem; overflow: hidden; }
+
+        .endpoint-head {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.6rem;
+            gap: 0.7rem 1rem;
             align-items: center;
-            margin: 0 0 0.8rem;
+            padding: 1rem 1.15rem;
+            border-bottom: 1px solid var(--line);
+            background: #fbf8f2;
         }
+
+        .endpoint-head h2 {
+            margin: 0;
+            font-family: ui-monospace, "Cascadia Code", "Courier New", monospace;
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .endpoint-body { padding: 1rem 1.15rem 1.2rem; }
 
         .method {
             display: inline-block;
-            min-width: 4.5rem;
+            min-width: 4.6rem;
             text-align: center;
-            font-weight: 700;
-            font-size: 0.85rem;
-            letter-spacing: 0.03em;
+            font-weight: 800;
+            font-size: 0.78rem;
+            letter-spacing: 0.04em;
             border-radius: 999px;
-            padding: 0.15rem 0.7rem;
-            border: 1px solid currentColor;
+            padding: 0.2rem 0.7rem;
         }
 
-        .get { color: #14532d; background: #dcfce7; }
-        .post { color: #1e3a8a; background: #dbeafe; }
-        .put { color: #9a3412; background: #ffedd5; }
-        .delete { color: #991b1b; background: #fee2e2; }
+        .get { color: var(--ok); background: var(--ok-bg); }
+        .post { color: var(--info); background: var(--info-bg); }
+        .put { color: var(--warn); background: var(--warn-bg); }
+        .delete { color: var(--bad); background: var(--bad-bg); }
+
+        .samples { margin-top: 0.9rem; }
+
+        [role="tablist"] {
+            display: flex;
+            gap: 0.35rem;
+            margin-bottom: 0.55rem;
+        }
+
+        [role="tab"] {
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--ink);
+            border-radius: 999px;
+            padding: 0.28rem 0.8rem;
+            font: inherit;
+            font-size: 0.92rem;
+            cursor: pointer;
+        }
+
+        [role="tab"][aria-selected="true"] {
+            background: var(--ink);
+            color: #fff;
+            border-color: var(--ink);
+        }
 
         code, pre {
             font-family: ui-monospace, "Cascadia Code", "Courier New", monospace;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
         }
 
         p code, li code, td code {
@@ -164,55 +278,91 @@
         }
 
         pre {
-            background: #1c1915;
+            margin: 0;
+            max-width: 100%;
+            background: #1b1814;
             color: #f6f1e7;
-            padding: 1rem;
-            border-radius: 8px;
+            padding: 1rem 1.05rem;
+            border-radius: 12px;
             overflow: auto;
-            line-height: 1.45;
+            line-height: 1.5;
         }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        .responses {
+            list-style: none;
+            margin: 0.9rem 0 0;
+            padding: 0;
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .responses li {
+            display: grid;
+            grid-template-columns: 3.4rem 1fr;
+            gap: 0.7rem;
+            align-items: start;
+        }
+
+        .status {
+            display: inline-block;
+            text-align: center;
+            font-weight: 800;
+            font-size: 0.82rem;
+            border-radius: 6px;
+            padding: 0.12rem 0.35rem;
+        }
+
+        .s200, .s201 { color: var(--ok); background: var(--ok-bg); }
+        .s400 { color: var(--warn); background: var(--warn-bg); }
+        .s404 { color: var(--bad); background: var(--bad-bg); }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background: var(--card);
-            margin: 1rem 0 1.5rem;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         caption {
             text-align: left;
             font-weight: 700;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.45rem;
         }
 
         th, td {
-            border: 1px solid var(--line);
-            padding: 0.55rem 0.7rem;
+            border-bottom: 1px solid var(--line);
+            padding: 0.65rem 0.75rem;
             text-align: left;
             vertical-align: top;
         }
 
         th { background: #efe8db; }
 
-        .status {
-            font-weight: 700;
+        tr:last-child td { border-bottom: 0; }
+
+        .note {
+            margin: 0.8rem 0 0;
+            color: var(--muted);
         }
 
         footer {
-            margin-top: 3rem;
+            margin-top: 2.8rem;
             color: var(--muted);
             font-size: 0.95rem;
         }
 
-        @media (max-width: 800px) {
+        @media (max-width: 860px) {
             .layout { grid-template-columns: 1fr; }
-            .menu {
-                position: static;
-                height: auto;
-                border-right: 0;
-                border-bottom: 1px solid var(--line);
-            }
-            main { padding: 1.5rem 1.1rem 3rem; }
+            .menu { position: static; height: auto; }
+            .grid { grid-template-columns: 1fr; }
+            main { padding: 1.4rem 1rem 3rem; }
+            .hero h1 { font-size: 2.15rem; }
+            .responses li { grid-template-columns: 1fr; gap: 0.2rem; }
         }
     </style>
 </head>
@@ -220,51 +370,64 @@
     <a class="skip" href="#conteudo">Ir para o conteúdo</a>
     <div class="layout">
         <nav class="menu" aria-label="Seções da documentação">
-            <p>Nesta página</p>
+            <p class="brand">API Filmes<span>localhost:5404</span></p>
+            <h2>Começar</h2>
             <ul>
+                <li><a href="#visao-geral">Visão geral</a></li>
                 <li><a href="#executar">Como executar</a></li>
-                <li><a href="#convencoes">Convenções</a></li>
                 <li><a href="#campos">Campos do filme</a></li>
+            </ul>
+            <h2>Rotas</h2>
+            <ul>
                 <li><a href="#listar">Listar filmes</a></li>
                 <li><a href="#buscar">Buscar por id</a></li>
                 <li><a href="#cadastrar">Cadastrar</a></li>
                 <li><a href="#atualizar">Atualizar</a></li>
                 <li><a href="#excluir">Excluir</a></li>
-                <li><a href="#frontend">Exemplo no front-end</a></li>
-                <li><a href="#resumo">Resumo</a></li>
+            </ul>
+            <h2>Referência</h2>
+            <ul>
+                <li><a href="#resumo">Resumo dos status</a></li>
             </ul>
         </nav>
 
         <main id="conteudo">
-            <header>
+            <header class="hero" id="visao-geral">
+                <p class="eyebrow">Documentação</p>
                 <h1>API Filmes</h1>
-                <p class="lead">Documentação para cadastrar, listar, consultar, atualizar e excluir filmes. A base da API é <code>http://localhost:5404</code>.</p>
+                <p class="lead">Cadastre, liste, consulte, atualize e exclua filmes. Cada rota abaixo tem exemplo em cURL, <code>fetch</code> e <code>axios</code>.</p>
+                <p class="base"><span>Base URL</span> <code>http://localhost:5404</code></p>
             </header>
 
-            <section id="executar">
-                <h2>Como executar</h2>
-                <ol>
-                    <li>Instale as dependências com <code>npm install</code>.</li>
-                    <li>Crie um arquivo <code>.env</code> na raiz do projeto com a connection string do PostgreSQL:</li>
-                </ol>
-                <pre tabindex="0"><code>URL_DATABASE=postgresql://usuario:senha@localhost:5432/nome_do_banco</code></pre>
-                <p>A tabela <code>filmes</code> precisa existir com as colunas <code>id</code>, <code>titulo</code>, <code>genero</code>, <code>ano</code>, <code>minutos</code>, <code>nota</code>, <code>sinopse</code> e <code>banner</code>. O <code>id</code> é gerado pelo banco.</p>
-                <p>Suba o servidor com <code>npm run dev</code>. Em produção, use <code>npm start</code>. Esta página fica em <a href="/docs">http://localhost:5404/docs</a>.</p>
-            </section>
+            <div class="grid">
+                <section class="card" id="executar">
+                    <h2>Como executar</h2>
+                    <ol>
+                        <li>Instale as dependências com <code>npm install</code>.</li>
+                        <li>Crie o arquivo <code>.env</code> na raiz:</li>
+                    </ol>
+                    <pre tabindex="0"><code>URL_DATABASE=postgresql://usuario:senha@localhost:5432/nome_do_banco</code></pre>
+                    <p>A tabela <code>filmes</code> precisa ter <code>id</code>, <code>titulo</code>, <code>genero</code>, <code>ano</code>, <code>minutos</code>, <code>nota</code>, <code>sinopse</code> e <code>banner</code>. O <code>id</code> é gerado pelo banco.</p>
+                    <p>Desenvolvimento: <code>npm run dev</code>. Produção: <code>npm start</code>. Esta página fica em <a href="/docs">/docs</a>.</p>
+                    <p>Para os exemplos com axios: <code>npm install axios</code>.</p>
+                </section>
 
-            <section id="convencoes">
-                <h2>Convenções</h2>
-                <ul>
-                    <li>As rotas de filme ficam em <code>/filmes</code>. A documentação continua em <code>/docs</code>.</li>
-                    <li>O corpo de <code>POST</code> e <code>PUT</code> deve ser JSON, com o header <code>Content-Type: application/json</code>.</li>
-                    <li>Respostas de sucesso são JSON. Mensagens de erro são texto puro.</li>
-                    <li>Não há autenticação. O CORS está liberado para qualquer origem.</li>
-                    <li>O <code>id</code> vai na URL nas rotas de consulta, atualização e exclusão. Ele não é enviado no corpo.</li>
-                </ul>
-            </section>
+                <section class="card" id="convencoes">
+                    <h2>Convenções</h2>
+                    <ul>
+                        <li>As rotas de filme ficam em <code>/filmes</code>.</li>
+                        <li><code>POST</code> e <code>PUT</code> recebem JSON. O <code>fetch</code> precisa do header <code>Content-Type: application/json</code>. O axios define esse header quando o corpo é um objeto.</li>
+                        <li>Sucesso volta em JSON. Erro volta em texto puro.</li>
+                        <li>No <code>fetch</code>, leia o erro com <code>text()</code>. No axios, o texto fica em <code>error.response.data</code>.</li>
+                        <li>Não há autenticação. O CORS aceita qualquer origem.</li>
+                        <li>O <code>id</code> vai na URL. Ele não entra no corpo.</li>
+                    </ul>
+                </section>
+            </div>
 
             <section id="campos">
                 <h2>Campos do filme</h2>
+                <div class="table-scroll">
                 <table>
                     <caption>Campos aceitos no cadastro e na atualização</caption>
                     <thead>
@@ -288,12 +451,12 @@
                         <tr>
                             <td><code>ano</code></td>
                             <td>sim</td>
-                            <td>número</td>
+                            <td>número. O valor <code>0</code> é recusado</td>
                         </tr>
                         <tr>
                             <td><code>minutos</code></td>
                             <td>sim</td>
-                            <td>número</td>
+                            <td>número. O valor <code>0</code> é recusado</td>
                         </tr>
                         <tr>
                             <td><code>nota</code></td>
@@ -317,31 +480,52 @@
                         </tr>
                     </tbody>
                 </table>
-                <p><code>ano</code> e <code>minutos</code> com valor <code>0</code> são recusados, porque a validação trata <code>0</code> como campo vazio.</p>
-                <h3>Exemplo de filme retornado</h3>
-                <pre tabindex="0"><code>{
-  "id": 1,
-  "titulo": "Inception",
-  "genero": "Sci-Fi",
-  "ano": 2010,
-  "minutos": 148,
-  "nota": "8.8",
-  "sinopse": "Um ladrão invade sonhos para plantar uma ideia.",
-  "banner": "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500"
-}</code></pre>
-                <p>O tipo exato de <code>nota</code> e dos demais campos segue o que o PostgreSQL devolve.</p>
+                </div>
+                <p class="note">O tipo exato de <code>nota</code> e dos demais campos segue o que o PostgreSQL devolve.</p>
             </section>
 
-            <section id="listar">
-                <h2>Listar filmes</h2>
-                <article class="endpoint">
-                    <p class="path"><span class="method get">GET</span> <code>/filmes</code></p>
-                    <p>Devolve todos os filmes cadastrados.</p>
-                    <h3>Requisição</h3>
-                    <pre tabindex="0"><code>curl http://localhost:5404/filmes</code></pre>
-                    <h3>Respostas</h3>
-                    <p><span class="status">200</span> — lista de filmes. Se não houver registros, a lista vem vazia.</p>
-                    <pre tabindex="0"><code>[
+            <section id="rotas">
+                <h2>Rotas</h2>
+
+                <article class="endpoint" id="listar">
+                    <div class="endpoint-head">
+                        <span class="method get">GET</span>
+                        <h2>/filmes</h2>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Devolve todos os filmes cadastrados. Sem registros, a lista vem vazia.</p>
+                        <div class="samples" data-samples>
+                            <div role="tablist" aria-label="Exemplos para listar filmes">
+                                <button type="button" role="tab" id="listar-tab-curl" aria-controls="listar-curl" aria-selected="true">cURL</button>
+                                <button type="button" role="tab" id="listar-tab-fetch" aria-controls="listar-fetch" aria-selected="false" tabindex="-1">fetch</button>
+                                <button type="button" role="tab" id="listar-tab-axios" aria-controls="listar-axios" aria-selected="false" tabindex="-1">axios</button>
+                            </div>
+                            <div role="tabpanel" id="listar-curl" aria-labelledby="listar-tab-curl">
+                                <pre tabindex="0"><code>curl http://localhost:5404/filmes</code></pre>
+                            </div>
+                            <div role="tabpanel" id="listar-fetch" aria-labelledby="listar-tab-fetch" hidden>
+                                <pre tabindex="0"><code>const resposta = await fetch("http://localhost:5404/filmes")
+
+if (!resposta.ok) {
+  console.log(resposta.status, await resposta.text())
+} else {
+  const filmes = await resposta.json()
+  console.log(filmes)
+}</code></pre>
+                            </div>
+                            <div role="tabpanel" id="listar-axios" aria-labelledby="listar-tab-axios" hidden>
+                                <pre tabindex="0"><code>import axios from "axios"
+
+try {
+  const { data } = await axios.get("http://localhost:5404/filmes")
+  console.log(data)
+} catch (error) {
+  console.log(error.response.status, error.response.data)
+}</code></pre>
+                            </div>
+                        </div>
+                        <h3>Resposta 200</h3>
+                        <pre tabindex="0"><code>[
   {
     "id": 1,
     "titulo": "Inception",
@@ -353,32 +537,70 @@
     "banner": "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500"
   }
 ]</code></pre>
-                    <p><span class="status">400</span> — falha ao consultar o banco: <code>Erro ao buscar filmes</code></p>
+                        <ul class="responses">
+                            <li><span class="status s200">200</span> <span>Lista de filmes, ou <code>[]</code> quando não há registros.</span></li>
+                            <li><span class="status s400">400</span> <span>Falha ao consultar o banco: <code>Erro ao buscar filmes</code></span></li>
+                        </ul>
+                    </div>
                 </article>
-            </section>
 
-            <section id="buscar">
-                <h2>Buscar filme por id</h2>
-                <article class="endpoint">
-                    <p class="path"><span class="method get">GET</span> <code>/filmes/:id</code></p>
-                    <p>Devolve um filme pelo identificador.</p>
-                    <h3>Requisição</h3>
-                    <pre tabindex="0"><code>curl http://localhost:5404/filmes/1</code></pre>
-                    <h3>Respostas</h3>
-                    <p><span class="status">200</span> — filme encontrado. O corpo é o objeto do filme.</p>
-                    <p><span class="status">200</span> — filme inexistente. O corpo da resposta fica vazio.</p>
-                    <p><span class="status">400</span> — id inválido para o banco ou falha na consulta: <code>Erro ao buscar filme</code></p>
-                    <p><span class="status">400</span> — id ausente na validação: <code>ID não informado</code></p>
+                <article class="endpoint" id="buscar">
+                    <div class="endpoint-head">
+                        <span class="method get">GET</span>
+                        <h2>/filmes/:id</h2>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Devolve um filme pelo identificador.</p>
+                        <div class="samples" data-samples>
+                            <div role="tablist" aria-label="Exemplos para buscar um filme">
+                                <button type="button" role="tab" id="buscar-tab-curl" aria-controls="buscar-curl" aria-selected="true">cURL</button>
+                                <button type="button" role="tab" id="buscar-tab-fetch" aria-controls="buscar-fetch" aria-selected="false" tabindex="-1">fetch</button>
+                                <button type="button" role="tab" id="buscar-tab-axios" aria-controls="buscar-axios" aria-selected="false" tabindex="-1">axios</button>
+                            </div>
+                            <div role="tabpanel" id="buscar-curl" aria-labelledby="buscar-tab-curl">
+                                <pre tabindex="0"><code>curl http://localhost:5404/filmes/1</code></pre>
+                            </div>
+                            <div role="tabpanel" id="buscar-fetch" aria-labelledby="buscar-tab-fetch" hidden>
+                                <pre tabindex="0"><code>const resposta = await fetch("http://localhost:5404/filmes/1")
+const texto = await resposta.text()
+const filme = texto ? JSON.parse(texto) : null
+
+console.log(resposta.status, filme)</code></pre>
+                            </div>
+                            <div role="tabpanel" id="buscar-axios" aria-labelledby="buscar-tab-axios" hidden>
+                                <pre tabindex="0"><code>import axios from "axios"
+
+try {
+  const { data } = await axios.get("http://localhost:5404/filmes/1")
+  console.log(data || null)
+} catch (error) {
+  console.log(error.response.status, error.response.data)
+}</code></pre>
+                            </div>
+                        </div>
+                        <ul class="responses">
+                            <li><span class="status s200">200</span> <span>Filme encontrado. O corpo é o objeto do filme.</span></li>
+                            <li><span class="status s200">200</span> <span>Filme inexistente. O corpo da resposta fica vazio.</span></li>
+                            <li><span class="status s400">400</span> <span>Id inválido ou falha na consulta: <code>Erro ao buscar filme</code></span></li>
+                        </ul>
+                    </div>
                 </article>
-            </section>
 
-            <section id="cadastrar">
-                <h2>Cadastrar filme</h2>
-                <article class="endpoint">
-                    <p class="path"><span class="method post">POST</span> <code>/filmes</code></p>
-                    <p>Cria um filme. Todos os campos da tabela acima são obrigatórios, exceto o <code>id</code>.</p>
-                    <h3>Requisição</h3>
-                    <pre tabindex="0"><code>curl -X POST http://localhost:5404/filmes \
+                <article class="endpoint" id="cadastrar">
+                    <div class="endpoint-head">
+                        <span class="method post">POST</span>
+                        <h2>/filmes</h2>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Cria um filme. Todos os campos da tabela são obrigatórios, exceto o <code>id</code>. <code>ano</code> e <code>minutos</code> precisam ser números, sem aspas.</p>
+                        <div class="samples" data-samples>
+                            <div role="tablist" aria-label="Exemplos para cadastrar um filme">
+                                <button type="button" role="tab" id="cadastrar-tab-curl" aria-controls="cadastrar-curl" aria-selected="true">cURL</button>
+                                <button type="button" role="tab" id="cadastrar-tab-fetch" aria-controls="cadastrar-fetch" aria-selected="false" tabindex="-1">fetch</button>
+                                <button type="button" role="tab" id="cadastrar-tab-axios" aria-controls="cadastrar-axios" aria-selected="false" tabindex="-1">axios</button>
+                            </div>
+                            <div role="tabpanel" id="cadastrar-curl" aria-labelledby="cadastrar-tab-curl">
+                                <pre tabindex="0"><code>curl -X POST http://localhost:5404/filmes \
   -H "Content-Type: application/json" \
   -d '{
     "titulo": "Inception",
@@ -389,23 +611,78 @@
     "sinopse": "Um ladrão invade sonhos para plantar uma ideia.",
     "banner": "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500"
   }'</code></pre>
-                    <h3>Respostas</h3>
-                    <p><span class="status">201</span> — filme criado. O corpo é o registro salvo, já com o <code>id</code>.</p>
-                    <p><span class="status">400</span> — algum campo obrigatório não foi enviado ou veio vazio: <code>Preencha todos os campos</code></p>
-                    <p><span class="status">400</span> — <code>titulo</code> com mais de 150 caracteres: <code>Título deve ter no máximo 150 caracteres</code></p>
-                    <p><span class="status">400</span> — <code>genero</code> com mais de 50 caracteres: <code>Gênero deve ter no máximo 50 caracteres</code></p>
-                    <p><span class="status">400</span> — <code>ano</code> ou <code>minutos</code> enviados como texto. No JSON, os dois precisam ser números, sem aspas: <code>Ano e minutos devem ser números</code></p>
-                    <p><span class="status">400</span> — o banco recusou a inserção: <code>Erro ao inserir filme</code></p>
-                </article>
-            </section>
+                            </div>
+                            <div role="tabpanel" id="cadastrar-fetch" aria-labelledby="cadastrar-tab-fetch" hidden>
+                                <pre tabindex="0"><code>const filme = {
+  titulo: "Inception",
+  genero: "Sci-Fi",
+  ano: 2010,
+  minutos: 148,
+  nota: 8.8,
+  sinopse: "Um ladrão invade sonhos para plantar uma ideia.",
+  banner: "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500"
+}
 
-            <section id="atualizar">
-                <h2>Atualizar filme</h2>
-                <article class="endpoint">
-                    <p class="path"><span class="method put">PUT</span> <code>/filmes/:id</code></p>
-                    <p>Substitui todos os dados do filme. O corpo é o mesmo do cadastro. Não há atualização parcial: os sete campos precisam ser enviados de novo.</p>
-                    <h3>Requisição</h3>
-                    <pre tabindex="0"><code>curl -X PUT http://localhost:5404/filmes/1 \
+const resposta = await fetch("http://localhost:5404/filmes", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(filme)
+})
+
+if (!resposta.ok) {
+  console.log(resposta.status, await resposta.text())
+} else {
+  const criado = await resposta.json()
+  console.log(criado)
+}</code></pre>
+                            </div>
+                            <div role="tabpanel" id="cadastrar-axios" aria-labelledby="cadastrar-tab-axios" hidden>
+                                <pre tabindex="0"><code>import axios from "axios"
+
+const filme = {
+  titulo: "Inception",
+  genero: "Sci-Fi",
+  ano: 2010,
+  minutos: 148,
+  nota: 8.8,
+  sinopse: "Um ladrão invade sonhos para plantar uma ideia.",
+  banner: "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500"
+}
+
+try {
+  const { data } = await axios.post("http://localhost:5404/filmes", filme)
+  console.log(data)
+} catch (error) {
+  console.log(error.response.status, error.response.data)
+}</code></pre>
+                            </div>
+                        </div>
+                        <ul class="responses">
+                            <li><span class="status s201">201</span> <span>Filme criado, já com o <code>id</code>.</span></li>
+                            <li><span class="status s400">400</span> <span>Campo ausente ou vazio: <code>Preencha todos os campos</code></span></li>
+                            <li><span class="status s400">400</span> <span><code>titulo</code> com mais de 150 caracteres: <code>Título deve ter no máximo 150 caracteres</code></span></li>
+                            <li><span class="status s400">400</span> <span><code>genero</code> com mais de 50 caracteres: <code>Gênero deve ter no máximo 50 caracteres</code></span></li>
+                            <li><span class="status s400">400</span> <span><code>ano</code> ou <code>minutos</code> enviados como texto: <code>Ano e minutos devem ser números</code></span></li>
+                            <li><span class="status s400">400</span> <span>O banco recusou a inserção: <code>Erro ao inserir filme</code></span></li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="endpoint" id="atualizar">
+                    <div class="endpoint-head">
+                        <span class="method put">PUT</span>
+                        <h2>/filmes/:id</h2>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Substitui todos os dados do filme. O corpo é o mesmo do cadastro. Os sete campos precisam ser enviados de novo.</p>
+                        <div class="samples" data-samples>
+                            <div role="tablist" aria-label="Exemplos para atualizar um filme">
+                                <button type="button" role="tab" id="atualizar-tab-curl" aria-controls="atualizar-curl" aria-selected="true">cURL</button>
+                                <button type="button" role="tab" id="atualizar-tab-fetch" aria-controls="atualizar-fetch" aria-selected="false" tabindex="-1">fetch</button>
+                                <button type="button" role="tab" id="atualizar-tab-axios" aria-controls="atualizar-axios" aria-selected="false" tabindex="-1">axios</button>
+                            </div>
+                            <div role="tabpanel" id="atualizar-curl" aria-labelledby="atualizar-tab-curl">
+                                <pre tabindex="0"><code>curl -X PUT http://localhost:5404/filmes/1 \
   -H "Content-Type: application/json" \
   -d '{
     "titulo": "Inception",
@@ -416,52 +693,111 @@
     "sinopse": "Um ladrão invade sonhos para plantar uma ideia.",
     "banner": "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500"
   }'</code></pre>
-                    <h3>Respostas</h3>
-                    <p><span class="status">200</span> — filme atualizado. O corpo é o registro depois da alteração.</p>
-                    <p><span class="status">404</span> — não existe filme com esse id: <code>Filme não encontrado</code></p>
-                    <p><span class="status">400</span> — mesmas validações do cadastro.</p>
-                    <p><span class="status">400</span> — id ausente na validação: <code>ID não informado</code></p>
-                    <p><span class="status">400</span> — o banco recusou a atualização: <code>Erro ao atualizar filme</code></p>
-                </article>
-            </section>
+                            </div>
+                            <div role="tabpanel" id="atualizar-fetch" aria-labelledby="atualizar-tab-fetch" hidden>
+                                <pre tabindex="0"><code>const filme = {
+  titulo: "Inception",
+  genero: "Sci-Fi",
+  ano: 2010,
+  minutos: 148,
+  nota: 9.0,
+  sinopse: "Um ladrão invade sonhos para plantar uma ideia.",
+  banner: "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500"
+}
 
-            <section id="excluir">
-                <h2>Excluir filme</h2>
-                <article class="endpoint">
-                    <p class="path"><span class="method delete">DELETE</span> <code>/filmes/:id</code></p>
-                    <p>Remove o filme e devolve o registro que foi apagado.</p>
-                    <h3>Requisição</h3>
-                    <pre tabindex="0"><code>curl -X DELETE http://localhost:5404/filmes/1</code></pre>
-                    <h3>Respostas</h3>
-                    <p><span class="status">200</span> — filme excluído. O corpo é o objeto removido.</p>
-                    <p><span class="status">404</span> — não existe filme com esse id: <code>Filme não encontrado</code></p>
-                    <p><span class="status">400</span> — id ausente na validação: <code>ID não informado</code></p>
-                    <p><span class="status">400</span> — o banco recusou a exclusão: <code>Erro ao deletar filme</code></p>
-                </article>
-            </section>
-
-            <section id="frontend">
-                <h2>Exemplo no front-end</h2>
-                <pre tabindex="0"><code>const resposta = await fetch("http://localhost:5404/filmes", {
-  method: "POST",
+const resposta = await fetch("http://localhost:5404/filmes/1", {
+  method: "PUT",
   headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    titulo: "Inception",
-    genero: "Sci-Fi",
-    ano: 2010,
-    minutos: 148,
-    nota: 8.8,
-    sinopse: "Um ladrão invade sonhos para plantar uma ideia.",
-    banner: "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500"
-  })
+  body: JSON.stringify(filme)
 })
 
-const filme = await resposta.json()</code></pre>
-                <p>Nas rotas de erro o corpo é texto. Use <code>resposta.text()</code> quando o status não for <code>200</code> ou <code>201</code>. Use <code>resposta.json()</code> quando a resposta for um filme ou uma lista.</p>
+if (!resposta.ok) {
+  console.log(resposta.status, await resposta.text())
+} else {
+  const atualizado = await resposta.json()
+  console.log(atualizado)
+}</code></pre>
+                            </div>
+                            <div role="tabpanel" id="atualizar-axios" aria-labelledby="atualizar-tab-axios" hidden>
+                                <pre tabindex="0"><code>import axios from "axios"
+
+const filme = {
+  titulo: "Inception",
+  genero: "Sci-Fi",
+  ano: 2010,
+  minutos: 148,
+  nota: 9.0,
+  sinopse: "Um ladrão invade sonhos para plantar uma ideia.",
+  banner: "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500"
+}
+
+try {
+  const { data } = await axios.put("http://localhost:5404/filmes/1", filme)
+  console.log(data)
+} catch (error) {
+  console.log(error.response.status, error.response.data)
+}</code></pre>
+                            </div>
+                        </div>
+                        <ul class="responses">
+                            <li><span class="status s200">200</span> <span>Filme atualizado. O corpo é o registro depois da alteração.</span></li>
+                            <li><span class="status s404">404</span> <span>Não existe filme com esse id: <code>Filme não encontrado</code></span></li>
+                            <li><span class="status s400">400</span> <span>Mesmas validações do cadastro, ou o banco recusou a atualização: <code>Erro ao atualizar filme</code></span></li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="endpoint" id="excluir">
+                    <div class="endpoint-head">
+                        <span class="method delete">DELETE</span>
+                        <h2>/filmes/:id</h2>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Remove o filme e devolve o registro que foi apagado.</p>
+                        <div class="samples" data-samples>
+                            <div role="tablist" aria-label="Exemplos para excluir um filme">
+                                <button type="button" role="tab" id="excluir-tab-curl" aria-controls="excluir-curl" aria-selected="true">cURL</button>
+                                <button type="button" role="tab" id="excluir-tab-fetch" aria-controls="excluir-fetch" aria-selected="false" tabindex="-1">fetch</button>
+                                <button type="button" role="tab" id="excluir-tab-axios" aria-controls="excluir-axios" aria-selected="false" tabindex="-1">axios</button>
+                            </div>
+                            <div role="tabpanel" id="excluir-curl" aria-labelledby="excluir-tab-curl">
+                                <pre tabindex="0"><code>curl -X DELETE http://localhost:5404/filmes/1</code></pre>
+                            </div>
+                            <div role="tabpanel" id="excluir-fetch" aria-labelledby="excluir-tab-fetch" hidden>
+                                <pre tabindex="0"><code>const resposta = await fetch("http://localhost:5404/filmes/1", {
+  method: "DELETE"
+})
+
+if (!resposta.ok) {
+  console.log(resposta.status, await resposta.text())
+} else {
+  const removido = await resposta.json()
+  console.log(removido)
+}</code></pre>
+                            </div>
+                            <div role="tabpanel" id="excluir-axios" aria-labelledby="excluir-tab-axios" hidden>
+                                <pre tabindex="0"><code>import axios from "axios"
+
+try {
+  const { data } = await axios.delete("http://localhost:5404/filmes/1")
+  console.log(data)
+} catch (error) {
+  console.log(error.response.status, error.response.data)
+}</code></pre>
+                            </div>
+                        </div>
+                        <ul class="responses">
+                            <li><span class="status s200">200</span> <span>Filme excluído. O corpo é o objeto removido.</span></li>
+                            <li><span class="status s404">404</span> <span>Não existe filme com esse id: <code>Filme não encontrado</code></span></li>
+                            <li><span class="status s400">400</span> <span>O banco recusou a exclusão: <code>Erro ao deletar filme</code></span></li>
+                        </ul>
+                    </div>
+                </article>
             </section>
 
             <section id="resumo">
-                <h2>Resumo das respostas</h2>
+                <h2>Resumo dos status</h2>
+                <div class="table-scroll">
                 <table>
                     <caption>Status HTTP de cada rota</caption>
                     <thead>
@@ -469,15 +805,13 @@ const filme = await resposta.json()</code></pre>
                             <th scope="col">Rota</th>
                             <th scope="col">Sucesso</th>
                             <th scope="col">Filme inexistente</th>
-                            <th scope="col">Validação</th>
-                            <th scope="col">Falha no banco</th>
+                            <th scope="col">Validação ou falha</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><code>GET /filmes</code></td>
                             <td>200, lista</td>
-                            <td>—</td>
                             <td>—</td>
                             <td>400</td>
                         </tr>
@@ -486,13 +820,11 @@ const filme = await resposta.json()</code></pre>
                             <td>200, objeto</td>
                             <td>200, corpo vazio</td>
                             <td>400</td>
-                            <td>400</td>
                         </tr>
                         <tr>
                             <td><code>POST /filmes</code></td>
                             <td>201, objeto</td>
                             <td>—</td>
-                            <td>400</td>
                             <td>400</td>
                         </tr>
                         <tr>
@@ -500,23 +832,72 @@ const filme = await resposta.json()</code></pre>
                             <td>200, objeto</td>
                             <td>404</td>
                             <td>400</td>
-                            <td>400</td>
                         </tr>
                         <tr>
                             <td><code>DELETE /filmes/:id</code></td>
                             <td>200, objeto</td>
                             <td>404</td>
                             <td>400</td>
-                            <td>400</td>
                         </tr>
-                    </tbody>
-                </table>
+</tbody>
+                    </table>
+                </div>
             </section>
 
             <footer>
-                <p>API Filmes. Documentação servida em <code>/docs</code>.</p>
+                <p>API Filmes. Documentação em <code>/docs</code>.</p>
             </footer>
         </main>
     </div>
+    <script>
+        document.querySelectorAll("[data-samples]").forEach((group) => {
+            const tabs = [...group.querySelectorAll("[role='tab']")]
+            const panels = [...group.querySelectorAll("[role='tabpanel']")]
+
+            function select(tab) {
+                tabs.forEach((item) => {
+                    const ativo = item === tab
+                    item.setAttribute("aria-selected", String(ativo))
+                    item.tabIndex = ativo ? 0 : -1
+                })
+                panels.forEach((panel) => {
+                    panel.hidden = panel.id !== tab.getAttribute("aria-controls")
+                })
+            }
+
+            tabs.forEach((tab, index) => {
+                tab.addEventListener("click", () => select(tab))
+                tab.addEventListener("keydown", (event) => {
+                    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return
+                    event.preventDefault()
+                    const destino = event.key === "ArrowRight"
+                        ? tabs[(index + 1) % tabs.length]
+                        : tabs[(index - 1 + tabs.length) % tabs.length]
+                    destino.focus()
+                    select(destino)
+                })
+            })
+        })
+
+        const links = [...document.querySelectorAll(".menu a")]
+        const secoes = links
+            .map((link) => document.querySelector(link.getAttribute("href")))
+            .filter(Boolean)
+
+        function marcarAtual() {
+            let atual = secoes[0]
+            secoes.forEach((secao) => {
+                if (secao.getBoundingClientRect().top <= 140) atual = secao
+            })
+            links.forEach((link) => {
+                const ativo = link.getAttribute("href") === "#" + atual.id
+                if (ativo) link.setAttribute("aria-current", "true")
+                else link.removeAttribute("aria-current")
+            })
+        }
+
+        marcarAtual()
+        document.addEventListener("scroll", marcarAtual, { passive: true })
+    </script>
 </body>
 </html>
