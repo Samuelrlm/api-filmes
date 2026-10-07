@@ -27,10 +27,22 @@ async function getFilmeById(id){
     return filme.rows[0]
 }
 
+async function updateFilme(id, filme){
+    const filmeUpdate = await connection.query(`
+        UPDATE filmes
+        SET titulo = $1, genero = $2, ano = $3, minutos = $4, nota = $5, sinopse = $6, banner = $7
+        WHERE id = $8
+        RETURNING *
+    `, [filme.titulo, filme.genero, filme.ano, filme.minutos, filme.nota, filme.sinopse, filme.banner, id])
+
+    return filmeUpdate.rows[0]
+}
+
 async function deleteFilme(id){
     const filme = await connection.query(`
         DELETE FROM filmes
         WHERE id = $1
+        RETURNING *
     `, [id])
 
     return filme.rows[0]
@@ -40,5 +52,6 @@ module.exports = {
     insertFilme,
     getFilmes,
     getFilmeById,
+    updateFilme,
     deleteFilme
 }

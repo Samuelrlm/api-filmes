@@ -8,5 +8,11 @@ router.post("/", middlewareFilmes.validateInsertFilmes, controllerFilmes.insertF
 router.get("/:id", 
     middlewareFilmes.validateGetFilmeById, 
     controllerFilmes.getFilmeById)
+router.put("/:id",
+    middlewareFilmes.validateUpdateFilme,
+    controllerFilmes.updateFilme)
+router.delete("/:id",
+    middlewareFilmes.validateGetFilmeById,
+    controllerFilmes.deleteFilme)
 
 module.exports = router;
